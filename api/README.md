@@ -17,6 +17,9 @@ Server runs at `http://localhost:8000`. API base path: `/api`.
 ## Endpoints
 
 - `GET /api/v1/health` – health check
+- `POST /api/v1/auth/register` – register (body: `email`, `password`, `name`)
+- `POST /api/v1/auth/login` – login (body: `email`, `password`)
+- `GET /api/v1/auth/me` – current user (requires `Authorization: Bearer <token>`)
 - `GET /api/v1/shopify/shop` – shop details
 - `GET /api/v1/shopify/products`, `.../products/:id`
 - `GET /api/v1/shopify/orders`, `.../orders/:id`
