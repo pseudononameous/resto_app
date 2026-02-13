@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const healthRoutes = require('./health');
-const shopifyRoutes = require('./shopifyRoutes');
 const authRoutes = require('./authRoutes');
 
 // Unified Restaurant Commerce Platform APIs
@@ -31,10 +30,18 @@ const giftCardTransactionRoutes = require('./giftCardTransactionRoutes');
 const deliveryRoutes = require('./deliveryRoutes');
 const deliveryTrackingRoutes = require('./deliveryTrackingRoutes');
 const notificationRoutes = require('./notificationRoutes');
+const locationRoutes = require('./locationRoutes');
+const deliveryZoneRoutes = require('./deliveryZoneRoutes');
+const serviceHoursRoutes = require('./serviceHoursRoutes');
+const holidayScheduleRoutes = require('./holidayScheduleRoutes');
+const reservationRoutes = require('./reservationRoutes');
+const customerAddressRoutes = require('./customerAddressRoutes');
+const productModifierGroupRoutes = require('./productModifierGroupRoutes');
+const publicRoutes = require('./publicRoutes');
 
 router.use(healthRoutes);
-router.use('/shopify', shopifyRoutes);
 router.use('/auth', authRoutes);
+router.use('/public', publicRoutes);
 
 // 1. Identity & Access Service
 router.use('/users', userRoutes);
@@ -45,6 +52,7 @@ router.use('/categories', categoryRoutes);
 router.use('/products', productRoutes);
 router.use('/modifier-groups', modifierGroupRoutes);
 router.use('/modifiers', modifierRoutes);
+router.use('/product-modifier-groups', productModifierGroupRoutes);
 
 // 3. Menu Service
 router.use('/menus', menuRoutes);
@@ -82,5 +90,13 @@ router.use('/delivery-trackings', deliveryTrackingRoutes);
 
 // 11. Notification Service
 router.use('/notifications', notificationRoutes);
+
+// 12. Locations & Operations
+router.use('/locations', locationRoutes);
+router.use('/delivery-zones', deliveryZoneRoutes);
+router.use('/service-hours', serviceHoursRoutes);
+router.use('/holiday-schedules', holidayScheduleRoutes);
+router.use('/reservations', reservationRoutes);
+router.use('/customer-addresses', customerAddressRoutes);
 
 module.exports = router;

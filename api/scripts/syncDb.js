@@ -7,7 +7,8 @@ const db = require('../model');
 
 async function sync() {
   try {
-    await db.sequelize.sync({ alter: false });
+    // Use alter: true to add new columns to existing tables; alter: false for fresh DB
+await db.sequelize.sync({ alter: true });
     console.log('Database sync completed.');
     process.exit(0);
   } catch (err) {

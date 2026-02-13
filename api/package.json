@@ -1,7 +1,7 @@
 {
   "name": "resto-app-api",
   "version": "1.0.0",
-  "description": "RestoApp Node API - Shopify proxy and unified API",
+  "description": "RestoApp Node API - unified restaurant commerce API",
   "private": true,
   "type": "commonjs",
   "main": "app.js",

@@ -7,7 +7,7 @@ const sequelizePaginate = require('sequelize-paginate');
 
 const Notification = sequelize.define('Notification', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  userId: { type: DataTypes.INTEGER, allowNull: false },
+  userId: { type: DataTypes.BIGINT.UNSIGNED, allowNull: false },
   type: { type: DataTypes.STRING(50), allowNull: true }, // order | delivery | promotion
   channel: { type: DataTypes.STRING(50), allowNull: true }, // sms | email | push
   message: { type: DataTypes.TEXT, allowNull: true },

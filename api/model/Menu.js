@@ -7,6 +7,7 @@ const sequelizePaginate = require('sequelize-paginate');
 
 const Menu = sequelize.define('Menu', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  locationId: { type: DataTypes.INTEGER, allowNull: true },
   name: { type: DataTypes.STRING(255), allowNull: false },
   activeFlag: { type: DataTypes.BOOLEAN, defaultValue: true },
   scheduleRules: { type: DataTypes.JSON, allowNull: true },

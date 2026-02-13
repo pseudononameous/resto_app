@@ -51,6 +51,15 @@ db.GiftCardTransaction = require('./GiftCardTransaction');
 db.Delivery = require('./Delivery');
 db.DeliveryTracking = require('./DeliveryTracking');
 
+// Multi-location & operations
+db.Location = require('./Location');
+db.DeliveryZone = require('./DeliveryZone');
+db.ServiceHours = require('./ServiceHours');
+db.HolidaySchedule = require('./HolidaySchedule');
+db.Reservation = require('./Reservation');
+db.CustomerAddress = require('./CustomerAddress');
+db.ProductModifierGroup = require('./ProductModifierGroup');
+
 // Notification
 db.Notification = require('./Notification');
 
@@ -66,13 +75,23 @@ db.Category.hasMany(db.Product, { foreignKey: 'categoryId' });
 
 // Modifier -> ModifierGroup
 db.Modifier.belongsTo(db.ModifierGroup, { foreignKey: 'modifierGroupId', as: 'modifierGroup' });
-db.ModifierGroup.hasMany(db.Modifier, { foreignKey: 'modifierGroupId' });
+db.ModifierGroup.hasMany(db.Modifier, { foreignKey: 'modifierGroupId', as: 'modifiers' });
+
+// Menu -> Location
+db.Menu.belongsTo(db.Location, { foreignKey: 'locationId', as: 'location' });
+db.Location.hasMany(db.Menu, { foreignKey: 'locationId' });
 
 // MenuItem -> Menu, Product
 db.MenuItem.belongsTo(db.Menu, { foreignKey: 'menuId', as: 'menu' });
-db.Menu.hasMany(db.MenuItem, { foreignKey: 'menuId' });
+db.Menu.hasMany(db.MenuItem, { foreignKey: 'menuId', as: 'menuItems' });
 db.MenuItem.belongsTo(db.Product, { foreignKey: 'productId', as: 'product' });
 db.Product.hasMany(db.MenuItem, { foreignKey: 'productId' });
+
+// Product <-> ModifierGroup (many-to-many via ProductModifierGroup)
+db.ProductModifierGroup.belongsTo(db.Product, { foreignKey: 'productId', as: 'product' });
+db.Product.hasMany(db.ProductModifierGroup, { foreignKey: 'productId', as: 'productModifierGroups' });
+db.ProductModifierGroup.belongsTo(db.ModifierGroup, { foreignKey: 'modifierGroupId', as: 'modifierGroup' });
+db.ModifierGroup.hasMany(db.ProductModifierGroup, { foreignKey: 'modifierGroupId' });
 
 // ProductRecipe -> Product, InventoryItem
 db.ProductRecipe.belongsTo(db.Product, { foreignKey: 'productId', as: 'product' });
@@ -80,13 +99,17 @@ db.Product.hasMany(db.ProductRecipe, { foreignKey: 'productId' });
 db.ProductRecipe.belongsTo(db.InventoryItem, { foreignKey: 'inventoryId', as: 'inventoryItem' });
 db.InventoryItem.hasMany(db.ProductRecipe, { foreignKey: 'inventoryId' });
 
-// Order -> User (customer)
+// Order -> User (customer), Location, DeliveryZone
 db.Order.belongsTo(db.User, { foreignKey: 'customerId', as: 'customer' });
 db.User.hasMany(db.Order, { foreignKey: 'customerId' });
+db.Order.belongsTo(db.Location, { foreignKey: 'locationId', as: 'location' });
+db.Location.hasMany(db.Order, { foreignKey: 'locationId' });
+db.Order.belongsTo(db.DeliveryZone, { foreignKey: 'deliveryZoneId', as: 'deliveryZone' });
+db.DeliveryZone.hasMany(db.Order, { foreignKey: 'deliveryZoneId' });
 
 // OrderItem -> Order, Product
 db.OrderItem.belongsTo(db.Order, { foreignKey: 'orderId', as: 'order' });
-db.Order.hasMany(db.OrderItem, { foreignKey: 'orderId' });
+db.Order.hasMany(db.OrderItem, { foreignKey: 'orderId', as: 'orderItems' });
 db.OrderItem.belongsTo(db.Product, { foreignKey: 'productId', as: 'product' });
 db.Product.hasMany(db.OrderItem, { foreignKey: 'productId' });
 
@@ -122,11 +145,35 @@ db.PromotionRedemption.belongsTo(db.User, { foreignKey: 'customerId', as: 'custo
 db.GiftCardTransaction.belongsTo(db.GiftCard, { foreignKey: 'cardId', as: 'giftCard' });
 db.GiftCard.hasMany(db.GiftCardTransaction, { foreignKey: 'cardId' });
 
-// Delivery -> Order, User (provider)
+// Delivery -> Order, User (provider), DeliveryZone
 db.Delivery.belongsTo(db.Order, { foreignKey: 'orderId', as: 'order' });
 db.Order.hasOne(db.Delivery, { foreignKey: 'orderId' });
 db.Delivery.belongsTo(db.User, { foreignKey: 'providerId', as: 'provider' });
 db.User.hasMany(db.Delivery, { foreignKey: 'providerId' });
+db.Delivery.belongsTo(db.DeliveryZone, { foreignKey: 'deliveryZoneId', as: 'deliveryZone' });
+db.DeliveryZone.hasMany(db.Delivery, { foreignKey: 'deliveryZoneId' });
+
+// DeliveryZone -> Location
+db.DeliveryZone.belongsTo(db.Location, { foreignKey: 'locationId', as: 'location' });
+db.Location.hasMany(db.DeliveryZone, { foreignKey: 'locationId' });
+
+// ServiceHours -> Location
+db.ServiceHours.belongsTo(db.Location, { foreignKey: 'locationId', as: 'location' });
+db.Location.hasMany(db.ServiceHours, { foreignKey: 'locationId' });
+
+// HolidaySchedule -> Location
+db.HolidaySchedule.belongsTo(db.Location, { foreignKey: 'locationId', as: 'location' });
+db.Location.hasMany(db.HolidaySchedule, { foreignKey: 'locationId' });
+
+// Reservation -> Location, User (customer)
+db.Reservation.belongsTo(db.Location, { foreignKey: 'locationId', as: 'location' });
+db.Location.hasMany(db.Reservation, { foreignKey: 'locationId' });
+db.Reservation.belongsTo(db.User, { foreignKey: 'customerId', as: 'customer' });
+db.User.hasMany(db.Reservation, { foreignKey: 'customerId' });
+
+// CustomerAddress -> User
+db.CustomerAddress.belongsTo(db.User, { foreignKey: 'userId', as: 'user' });
+db.User.hasMany(db.CustomerAddress, { foreignKey: 'userId' });
 
 // DeliveryTracking -> Delivery
 db.DeliveryTracking.belongsTo(db.Delivery, { foreignKey: 'deliveryId', as: 'delivery' });

@@ -6,20 +6,36 @@ const { options, isCountOnly, include, select } = require('./commonFilterValidat
 
 exports.schemaKeys = joi.object({
   customerId: joi.number().integer().allow(null),
+  locationId: joi.number().integer().allow(null),
   orderType: joi.string().valid('dine_in', 'takeout', 'delivery').required(),
   orderStatus: joi.string().allow(null).allow(''),
+  scheduledAt: joi.date().allow(null),
   subtotal: joi.number().min(0).default(0),
   discountAmount: joi.number().min(0).default(0),
+  deliveryFee: joi.number().min(0).default(0),
   totalAmount: joi.number().min(0).default(0),
+  deliveryZoneId: joi.number().integer().allow(null),
+  guestEmail: joi.string().allow(null).allow(''),
+  guestName: joi.string().allow(null).allow(''),
+  guestPhone: joi.string().allow(null).allow(''),
+  notes: joi.string().allow(null).allow(''),
 }).unknown(true);
 
 exports.updateSchemaKeys = joi.object({
   customerId: joi.number().integer().allow(null),
+  locationId: joi.number().integer().allow(null),
   orderType: joi.string().valid('dine_in', 'takeout', 'delivery').allow(null),
   orderStatus: joi.string().allow(null).allow(''),
+  scheduledAt: joi.date().allow(null),
   subtotal: joi.number().min(0).allow(null),
   discountAmount: joi.number().min(0).allow(null),
+  deliveryFee: joi.number().min(0).allow(null),
   totalAmount: joi.number().min(0).allow(null),
+  deliveryZoneId: joi.number().integer().allow(null),
+  guestEmail: joi.string().allow(null).allow(''),
+  guestName: joi.string().allow(null).allow(''),
+  guestPhone: joi.string().allow(null).allow(''),
+  notes: joi.string().allow(null).allow(''),
   id: joi.number().integer(),
 }).unknown(true);
 

@@ -6,7 +6,7 @@ const sequelize = require('../config/dbConnection');
 const sequelizePaginate = require('sequelize-paginate');
 
 const LoyaltyAccount = sequelize.define('LoyaltyAccount', {
-  customerId: { type: DataTypes.INTEGER, primaryKey: true },
+  customerId: { type: DataTypes.BIGINT.UNSIGNED, primaryKey: true },
   pointsBalance: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
   createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },

@@ -9,6 +9,8 @@ exports.schemaKeys = joi.object({
   productId: joi.number().integer().required(),
   displayPrice: joi.number().min(0).allow(null),
   availabilityStatus: joi.string().allow(null).allow(''),
+  stockControlled: joi.boolean().default(false),
+  sortOrder: joi.number().integer().default(0),
 }).unknown(true);
 
 exports.updateSchemaKeys = joi.object({
@@ -16,6 +18,8 @@ exports.updateSchemaKeys = joi.object({
   productId: joi.number().integer().allow(null),
   displayPrice: joi.number().min(0).allow(null),
   availabilityStatus: joi.string().allow(null).allow(''),
+  stockControlled: joi.boolean().allow(null),
+  sortOrder: joi.number().integer().allow(null),
   id: joi.number().integer(),
 }).unknown(true);
 

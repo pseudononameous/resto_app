@@ -13,6 +13,9 @@ const Product = sequelize.define('Product', {
   categoryId: { type: DataTypes.INTEGER, allowNull: true },
   activeFlag: { type: DataTypes.BOOLEAN, defaultValue: true },
   imageUrl: { type: DataTypes.STRING(500), allowNull: true },
+  allergens: { type: DataTypes.JSON, allowNull: true }, // e.g. ["nuts","dairy"]
+  dietaryInfo: { type: DataTypes.JSON, allowNull: true }, // e.g. ["vegetarian","gluten-free"]
+  availabilitySchedule: { type: DataTypes.JSON, allowNull: true }, // { dayOfWeek: [open, close], ... }
   createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
 }, { tableName: 'products', underscored: true });

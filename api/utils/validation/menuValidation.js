@@ -6,12 +6,14 @@ const { options, isCountOnly, include, select } = require('./commonFilterValidat
 
 exports.schemaKeys = joi.object({
   name: joi.string().required(),
+  locationId: joi.number().integer().allow(null),
   activeFlag: joi.boolean().default(true),
   scheduleRules: joi.object().allow(null),
 }).unknown(true);
 
 exports.updateSchemaKeys = joi.object({
   name: joi.string().allow(null),
+  locationId: joi.number().integer().allow(null),
   activeFlag: joi.boolean().allow(null),
   scheduleRules: joi.object().allow(null),
   id: joi.number().integer(),

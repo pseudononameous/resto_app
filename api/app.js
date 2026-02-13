@@ -1,6 +1,6 @@
 /**
  * RestoApp API – Node/Express (template from node_api_kit, no DB).
- * Serves /api/v1/health and /api/v1/shopify/* (Shopify proxy).
+ * Serves /api/v1/health and unified restaurant commerce APIs.
  */
 
 require('dotenv').config({ path: '.env' });
